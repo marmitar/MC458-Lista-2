@@ -1,0 +1,63 @@
+Considere que uma matriz $A$ de dimensões $m \times n$ é crescente se cada linha de $M$ é estritamente crescente e cada coluna também é estritamente crescente, ou seja, para todo $1 \leq i < m$ e $1 \leq j \leq n$ temos que $A_{i,j} < A_{i+1,j}$, e para todo $1 \leq i \leq m$ e $1 \leq j < n$ temos que $A_{i,j} < A_{i,j+1}$.
+
+\itemsep
+
+\begin{proof}
+    Vamos provar por indução forte em $n$ que para toda matriz crescente $M$ de dimensões $2^n \times 2^n$ é possível determinar se existem e quais são os índices $i$ e $j$ tais que $M(i,j) = x$, para um número $x$ arbitrário.
+
+    ~
+
+    Caso base: $n = 0$. Seja então $M$ uma matriz crescente $1 \times 1$, ou seja, uma matriz com apenas um elemento. Se $M(1,1) = x$, temos os que $i = j = 1$. Caso contrário, esses índices não existem.
+
+    ~
+
+    Passo indutivo: Suponha um natural $n \geq 1$ tal que para todo $k \leq n$ e qualquer matriz crescente $M$ de dimensões $2^k \times 2^k$ é possível determinar se existem e quais são os índices $i$ e $j$ tais que $M(i,j) = x$. Suponha também uma matriz crescente $M$ de dimensões $2^{n+1} \times 2^{n+1}$ e um número $x$ qualquer.
+
+    Considere as partições de $M$ a seguir de dimensões iguais:
+    \[
+        M = \begin{pmatrix}
+            M_{11} & M_{12} \\
+            M_{21} & M_{22}
+        \end{pmatrix}
+    \]
+    Desse modo, $M_{11}$ também é crescente, mas com dimensões \\ $\left(2^{n+1}/2\right) \times \left(2^{n+1}/2\right) = 2^n \times 2^n$. O mesmo vale para as submatrizes $M_{12}$, $M_{21}$ e $M_{22}$.
+
+    \begin{case}[$M\left(2^n, 2^n\right) = x$]
+        Então temos $i = j = 2^n$ tais que $M(i, j) = x$, como proposto.
+    \end{case}
+    \begin{case}[$M\left(2^n, 2^n\right) < x$]
+        Note que $M\left(2^n, 2^n\right)$ é o maior valor de $M_{11}$, ou seja, $M_{11}(i, j) \leq M\left(2^n, 2^n\right)$ para todo $1 \leq i, j \leq 2^n$. Portanto, não pode existir uma posição com valor $x$ em $M_{11}$.
+
+        Assim, como $n \leq n$ e $M_{21}$ é crescente e $2^n \times 2^n$, podemos, de acordo com a hipótese indutiva, determinar se existem e quais são os índices $i'$ e $j'$ tais que $M_{21}(i', j') = x$. Se eles existirem, podemos tomar $i = i'$ e $j = j' + 2^n$ de forma que $M(i, j) = M_{21}(i', j') = x$, concluindo a demonstração.
+
+        Por outro lado, se os índices não existem em $M_{21}$, temos que as mesmas condições se aplicam à $M_{12}$. Portanto, se existirem $i'$ e $j'$ para $M_{12}$, podemos tomar $i = i' + 2^n$ e $j = j'$ de maneira que $M(i, j) = M_{12}(i', j') = x$, como proposto.
+
+        Se esses índices também não existirem para $M_{12}$, podemos aplicar a hipótese indutiva em $M_{22}$. Se os índices não existirem em $M_{22}$, então eles não existem em nenhuma das partições e, portanto, não existem em $M$. Caso contrário, podemos tomar $i = i' + 2^n$ e $j = j' + 2^n$ em que $M(i,j) = M_{22}(i', j') = x$.
+    \end{case}
+    \begin{case}[$M\left(2^n, 2^n\right) > x$]
+        Note agora que $M\left(2^n, 2^n\right)$ é menor que qualquer valor de $M_{22}$, já que $2^n < i, j \leq 2^{n+1}$, sendo $i$ e $j$ índices válidos para $M_{22}$. Portanto, $x$ não aparece em nenhuma posição de $M_{22}$.
+
+        Assim como no caso anterior, teremos $M_{11}$, $M_{21}$ e $M_{12}$, que podem ser resolvidas pela hipótese indutiva. Caso não exista os índices em nenhuma dessas matrizes, então $x$ não existe em $M$.
+    \end{case}
+\end{proof}
+
+\itemsep
+
+Assim, dados um número $x$ e uma matriz crescente $M$ de dimensões $n \times n$, onde $n$ é uma potência de 2, podemos encontrar se existem e quais são os índices $i$ e $j$ em que $M(i,j) = x$. Nesse caso, um algoritmo baseado na demonstração acima teria seu pior caso quando $x$ não pode ser encontrado em $M$. Assim, considerando a entrada $M$, teríamos que:
+\begin{align*}
+    T(M) &= \begin{cases}
+        T(M_{11}) + T(M_{12}) + T(M_{21}) + \Theta(1) & \text{se $x < M(2/n, 2/n)$} \\
+        T(M_{12}) + T(M_{21}) + T(M_{22}) + \Theta(1) & \text{se $x > M(2/n, 2/n)$}
+    \end{cases} \\
+    &= T(M_{12}) + T(M_{21}) + \begin{cases}
+        T(M_{11}) & \text{se $x < M(2/n, 2/n)$} \\
+        T(M_{22}) & \text{se $x > M(2/n, 2/n)$}
+    \end{cases} + \Theta(1)
+\end{align*}
+
+Agora, considerando o tempo em função da altura $n$, teremos que $T(M) = T(n)$ e $T(M_{11}) = T(M_{12}) = T(M_{21}) = T(M_{22}) = T(n/2)$. Portanto, a recorrência será:
+\begin{align*}
+    T(n) &= T(n/2) + T(n/2) + T(n/2) + \Theta(1) \\
+    &= 3 T(n/2) + \Theta(1) \\
+    &= \Theta(n^{\lg 3}) && \text{(pelo Teorema Master)}
+\end{align*}

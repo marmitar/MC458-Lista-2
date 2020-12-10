@@ -1,0 +1,65 @@
+Dado uma árvore ternária $T$ não-vazia com raiz $R$ e chave $r$, vamos considerar o Valor do nó Mais à Esquerda (VME) de $T$ como
+\[
+    \VME(T) = \begin{cases}
+        \VME(T_e) & \text{se $T$ tem uma subárvore esquerda $T_e$ não-vazia} \\
+        R.r & \text{caso contrário}
+    \end{cases}
+\]
+Do mesmo modo, seja o Valor do nó Mais à Direita (VMD) dado por
+\[
+    \VMD(T) = \begin{cases}
+        \VMD(T_d) & \text{se $T$ tem uma subárvore direita $T_d$ não-vazia} \\
+        R.r & \text{caso contrário}
+    \end{cases}
+\]
+Note que para uma Árvore de Tusca $T$ não-vazia, $\VME(T)$ é o menor valor presente em $T$ e $\VMD(T)$ é o maior valor de $T$. Com isso, vamos provar por indução forte que é possível verificar se uma árvore ternária é uma Árvore de Tusca, utlizando os valores VME e VMD da árvore.
+
+\itemsep
+
+\begin{proof}[Demonstração para árvores não-vazias]\resetCasos~
+
+    Suponha um natural $n$ tal que para toda árvore ternária com $1 \leq k < n$ nós é possível calcular as medidas VME e VMD dela e verificar se ela é uma Árvore de Tusca (ADT). Suponha ainda um a árvore ternária $T$ com $n$ nós e seja $v$ a raiz de $T$, com $T_e$, $T_c$ e $T_d$ sendo as subárvores esquerda, central e direita de $T$, respectivamente.
+
+    Assim, considere as seguintes condições necessárias e suficientes para que $T$ seja uma ADT:
+
+        a) $T_e$ é uma ADT e todos os valores de $T_e$ são menores que $v.r$;
+
+        b) $T_c$ é uma ADT e todos os valores de $T_c$ são iguais que $v.r$;
+
+        c) $T_d$ é uma ADT e todos os valores de $T_d$ são maiores que $v.r$.
+
+    ~
+
+    Observando a subárvore esquerda, se $T_e$ é vazia, então ela é uma ADT e, por vacuidade, todos seus valores são menores que $v.r$, ou seja, a condição (a) foi atendida. Além disso, por definição, temos que $\VME(T) = v.r$.
+
+    Se $T_e$ não é vazia, como $T_e \subseteq T \setminus \{v\}$, então ela tem $1 \leq k_e < n$ nós e, pela hipótese indutiva, sabemos se ela é uma ADT e temos os valores VME e VMD dela.
+    \begin{case}[$T_e$ não é uma ADT]
+        Logo, a condição (a) não foi atendida.
+    \end{case}
+    \begin{case}[$T_e$ é uma ADT e $\VMD(T_e) \geq v.r$]
+        Então, temos pelo menos um nó em $T_e$ cujo valor não é menor que $v.r$. Portanto, a condição (a) não foi atendida.
+    \end{case}
+    \begin{case}[$T_e$ é uma ADT e $\VMD(T_e) < v.r$]
+        Como $\VMD(T_e)$ é o maior valor em $T_e$, então todos os valores de $T_e$ são menores que $v.r$ e, como ela é uma ADT, a condição (a) foi atendida.
+    \end{case}
+    Por fim, como os caso são exaustivos para $T_e$ não-vazia, conseguimos analisar a condição (a) e temos, como $T_e$ é não vazia, que $\VME(T) = \VME(T_e)$.
+
+    ~
+
+    De forma similar para a subárvore central, se $T_c$ é vazia, então a condição (b) foi atendida. Caso contrário, $T_c$ tem $1 \leq k_c < n$ nós, então sabemos os valores VME e VMD dela e se ela é uma ADT. Nesse caso, a condição (b) só é garantida quando $T_c$ é uma ADT com $\VME(T_c) = v.r = \VMD(T_c)$.
+
+    ~
+
+    Agora, para a subárvore direita, se $T_d$ for vazia, a condição (c) será garantida e teremos que $\VMD(T) = v.r$. Se ela não for vazia, então $T_d$ deve ter $1 \leq k_d < n$ nós, portanto temos VME, VMD e se ela é uma ADT, sendo que $\VMD(T) = \VMD(T_d)$. Além disso, para $T_d$ não-vazia, a condição (c) será atendida se e somente se $\VME(T_d) > v.r$.
+
+    ~
+
+    Por fim, conseguimos calcular $\VME(T)$ e $\VMD(T)$ em cada caso possível, além de analisar com certeza as condições (a), (b) e (c). Então, podemos dizer que $T$ é ADT se e somente se essas três condições são verdadeiras para $T$, ou seja, podemos verificar se $T$ uma ADT.
+\end{proof}
+
+\itemsep
+
+\begin{proof}[Demonstração para árvores quaisquer]~
+
+    Para uma árvore ternária $T$ qualquer, se $T$ é vazia então, por definição, $T$ é uma Árvore de Tusca. Caso contrário, como $T$ é não-vazia, então podemos verificar se ela é uma ADT utilizando as medidas VME e VMD, como demonstrado anteriormente.
+\end{proof}

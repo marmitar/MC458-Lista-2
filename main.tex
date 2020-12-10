@@ -1,0 +1,76 @@
+\documentclass[a4paper, 14pt]{extarticle}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{float, pgf, caption, subcaption}
+
+\input{secoes}
+\input{teorema}
+\input{simbolos}
+
+% math display skip
+\newcommand{\reducemathskip}[1][0.5em]{%
+    \setlength{\abovedisplayskip}{1pt}%
+    \setlength{\belowdisplayskip}{#1}%
+    \setlength{\abovedisplayshortskip}{#1}%
+    \setlength{\belowdisplayshortskip}{#1}%
+}
+
+% url linking problems
+\def\url#1{\href{#1}{\texttt{#1}}}
+% vermelho
+\def\red#1{\textcolor{red}{#1}}
+
+\def\lmref#1{\thmref[lema ]{#1}}
+
+\usepackage{xparse, enumitem}
+
+\NewDocumentCommand{\seq}{ s m O{n} O{\in\natural} }
+    {\IfBooleanTF{#1}
+        {\ensuremath{\left({#2}_{#3}\right)}}
+        {\ensuremath{\left({#2}_{#3}\right)_{{#3}{#4}}}}}
+
+
+\title{\vspace{-2.5cm}Lista de Exercícios Avaliativa 1 \\ \normalsize MC458 - 2s2020}
+\author{Tiago de Paula Alves \\ \small 187679}
+\date{}
+
+\DeclareMathOperator{\DMFP}{DMFP}
+\DeclareMathOperator{\DMFD}{DMFD}
+\DeclareMathOperator{\VME}{VME}
+\DeclareMathOperator{\VMD}{VMD}
+
+\begin{document}
+
+    \maketitle
+
+    \noindent\rule{\textwidth}{0.4pt}%
+    \vskip1em
+
+    CORRIGIR A QUESTÃO \textbf{??}.
+
+    \section{1} \label{sec:1}
+    \begingroup
+        \input{respostas/01}
+    \endgroup
+
+    \docline[]
+
+    \section{2} \label{sec:2}
+    \begingroup
+        \input{respostas/02}
+    \endgroup
+
+    \docline[]
+
+    \section{3} \label{sec:3}
+    \begingroup
+        \input{respostas/03}
+    \endgroup
+
+    \docline[]
+
+\end{document}

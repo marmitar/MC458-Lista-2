@@ -1,0 +1,23 @@
+\begin{proof}\resetCasos
+    Suponha um natural $n \geq 1$ tal que para toda árvore $T$ com $1 \leq k < n$ nós e raiz $r$ podemos encontrar $\DMFP(r)$ e $\DMFD(r)$ e podemos rotular $r.D = \abs{\DMFP(r) - \DMFD(r)}$. Suponha também uma árvore $T$ com $n$ nós e raiz $r$.
+
+    \begin{case}[$r$ não tem filhos]
+        Logo, também podemos considerá-lo como a única folha de $T$. Assim, as distâncias da folha mais próxima e da folha mais distante são 0, isto é, $\DMFP(r) = \DMFD(r) = 0$. Portanto, $r.D = \abs{0-0} = 0$.
+    \end{case}
+    \begin{case}[$r$ tem apenas 1 filho]
+        Seja então $r_f$ esse filho e $T_f$ a subárvore com raiz no vértice $r_f$. Como $T_f = T \setminus \{r\}$ e $n \geq 2$, então $T_f$ tem $1 \leq n - 1 < n$ nós. Portanto, pela hipótese indutiva, podemos encontrar $\DMFP\left(r_f\right)$ e $\DMFD\left(r_f\right)$ e rotular o campo $r_f.D$. Note que todas as folhas de $T$ também estão em $T_f$, sendo que $r_f$ é o único caminho de $r$ para elas. Logo, as distâncias da folha mais próxima e da folha mais distante são dadas por $\DMFP(r) = \DMFP\left(r_f\right) + 1$ e $\DMFD(r) = \DMFD\left(r_f\right) + 1$. Portanto, temos que
+        \[
+            r.D = \abs{\DMFP(r) - \DMFD(r)} = \abs{\DMFP\left(r_f\right) - \DMFD\left(r_f\right)} = r_f.D
+        \]
+    \end{case}
+    \begin{case}[$r$ tem 2 filhos]
+        Sejam então $r_e$ e $r_d$ estes filhos e $T_e$ e $T_d$ as subárvores enraizadas em cada um deles. Como $T_e \subseteq T \setminus \{r\}$, então $T_e$ tem $1 \leq k_e \leq n - 1 < n$ nós, logo, podemos encontrar $\DMFP\left(r_e\right)$ e $\DMFD\left(r_e\right)$ e rotular $r_e.D$. Do mesmo modo, $T_d \subseteq T \setminus \{r\}$ e $T_d$ tem $1 \leq k_d < n$ nós, então temos $\DMFP\left(r_d\right)$ e $\DMFD\left(r_d\right)$ e $r_d.D$.
+
+        Note que a folha mais próxima de $r$, passando por $r_e$ está à $\DMFP\left(r_e\right) + 1$ de distância, e passando por $r_d$ está à $\DMFP\left(r_d\right) + 1$. Portanto, temos que
+        \begin{align*}
+            \DMFP(r) &= \max\left\{\DMFP\left(r_e\right) + 1, \DMFP\left(r_d\right) + 1\right\} \\
+            &= \max\left\{\DMFP\left(r_e\right), \DMFP\left(r_d\right)\right\} + 1
+        \end{align*}
+        De forma similar, temos que $\DMFD(r) = \min\left\{\DMFD\left(r_e\right), \DMFD\left(r_d\right)\right\} + 1$. Com disso, podemos rotular $r.D = \abs{\DMFP(r) - \DMFD(r)}$.
+    \end{case}
+\end{proof}
