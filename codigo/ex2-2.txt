@@ -1,0 +1,14 @@
+Node
+    (Node Empty
+        (Node Empty
+            (Node Empty
+                (Node Empty Empty)
+            )
+        )
+    )
+    (Node
+        (Node Empty Empty)
+        (Node Empty
+            (Node Empty Empty)
+        )
+    )
